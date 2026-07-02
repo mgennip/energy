@@ -75,7 +75,7 @@ svg { width: 100vw; height: 100vh; }
 <circle class="node ev-node" cx="350" cy="335" r="35"/>
 <text class="label" x="350" y="330">🚗</text>
 <text class="power" id="ev_power" x="350" y="345">0 W</text>
-<!--<text class="power" id="ev_charge" x="350" y="360">0 %</text>-->
+
 
 <!-- Lines -->
 <path id="net_to_hub" class="line net" d="M550,100 Q550,175 400,175"/>
@@ -112,7 +112,7 @@ const el = {
     house: document.getElementById("house_power"),
     ev: document.getElementById("ev_power"),
     battCharge: document.getElementById("battery_charge"),
-    evCharge: document.getElementById("ev_charge")
+  
 };
 
 // ================= MQTT =================
@@ -174,9 +174,7 @@ client.on("message", (topic, message) => {
             el.battCharge.textContent = value + " %";
             break;
 
-        case "huis/ev/charge":
-            el.evCharge.textContent = value + " %";
-            break;
+
     }
 });
 
