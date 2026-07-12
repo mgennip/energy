@@ -75,6 +75,7 @@ svg { width: 100vw; height: 100vh; }
 <circle class="node ev-node" cx="350" cy="335" r="35"/>
 <text class="label" x="350" y="330">🚗</text>
 <text class="power" id="ev_power" x="350" y="345">0 W</text>
+<text class="power" id="ev_charge" x="350" y="360">0 %</text>
 
 
 <!-- Lines -->
@@ -111,6 +112,7 @@ const el = {
     solarKwh: document.getElementById("solar_poweropwek"),
     house: document.getElementById("house_power"),
     ev: document.getElementById("ev_power"),
+	evcharge: document.getElementById("ev_charge"),
     battCharge: document.getElementById("battery_charge"),
   
 };
@@ -141,7 +143,7 @@ client.on("message", (topic, message) => {
 
     switch (topic) {
 
-        case "huis/net":
+        case "huisx/net":
             energy.net = value;
             el.net.textContent = Math.abs(value) + " W";
             break;
@@ -151,12 +153,12 @@ client.on("message", (topic, message) => {
             el.battery.textContent = Math.abs(value) + " W";
             break;
 
-        case "huis/solar":
+        case "huis/sensor/solaredge_ac_power/state":
             energy.solar = value;
             el.solar.textContent = Math.round(value) + " W";
             break;
 
-        case "huis/solar/opwek":
+        case "huis/sensor/solaredge_opbrengst_vandaag/state":
             el.solarKwh.textContent = (value / 1).toFixed(0) + " kWh";
             break;
 
@@ -172,6 +174,10 @@ client.on("message", (topic, message) => {
 
         case "huis/battery/charge":
             el.battCharge.textContent = value + " %";
+            break;
+
+        case "huis/sensor/tesla_wall_connector_session_energy/state":
+            el.evcharge.textContent = (value / 1).toFixed(0) + " kWh";
             break;
 
 
