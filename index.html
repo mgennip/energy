@@ -169,7 +169,7 @@ client.on("message", (topic, message) => {
             break;
 
         case "huis/sensor/tesla_wall_connector_total_power/state":
-            energy.ev = value;
+            energy.ev = value * 1000;   //voor de snelheid van de bolletjes
             el.ev.textContent = Math.round(value*1000) + " W";
             break;
 
