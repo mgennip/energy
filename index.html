@@ -144,12 +144,12 @@ client.on("message", (topic, message) => {
 
     switch (topic) {
 
-        case "huisx/net":
+        case "huis/sensor/p1_meter_power/state":
             energy.net = value;
             el.net.textContent = Math.abs(value) + " W";
             break;
 
-        case "huis/battery":
+        case "huis/sensor/marstek_venuse_3_0_grid_power/state":
             energy.battery = value;
             el.battery.textContent = Math.abs(value) + " W";
             break;
@@ -163,7 +163,7 @@ client.on("message", (topic, message) => {
             el.solarKwh.textContent = (value / 1).toFixed(0) + " kWh";
             break;
 
-        case "huis/house":
+        case "huis/sensor/huisverbruik/state":
             energy.house = value;
             el.house.textContent = Math.abs(value) + " W";
             break;
@@ -173,7 +173,7 @@ client.on("message", (topic, message) => {
             el.ev.textContent = Math.round(value*1000) + " W";
             break;
 
-        case "huis/battery/charge":
+        case "huis/sensor/marstek_venuse_3_0_state_of_charge/state":
             el.battCharge.textContent = value + " %";
             break;
 
