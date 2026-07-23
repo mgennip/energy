@@ -86,8 +86,7 @@ svg { width: 100vw; height: 100vh; }
 <path id="hub_to_ev" class="line ev" d="M350 200 L350 300"/>
 
 <!-- Flow dots -->
-<!-- <circle id="flow_net" class="flow net" filter="url(#glow)"/> -->
-<circle id="flow_net" class="flow net"/>
+<circle id="flow_net" class="flow net" filter="url(#glow)"/>
 <circle id="flow_battery" class="flow bat" filter="url(#glow)"/>
 <circle id="flow_solar" class="flow solar" filter="url(#glow)"/>
 <circle id="flow_house" class="flow house" filter="url(#glow)"/>
@@ -205,11 +204,11 @@ function animateFlow(key, power) {
     const path = document.getElementById(f.path);
 
     if (!power || Math.abs(power) < 1) {
-        circle.style.display = "none";
+        circle.setAttribute("display", "none");
         return;
     }
 
-    circle.style.display = "block";
+    circle.removeAttribute("display");
 
     const dir = Math.sign(power);
     const speed = Math.min(Math.pow(Math.abs(power) / 1000, 0.5) * 0.005, 0.05);
