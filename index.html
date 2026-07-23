@@ -136,20 +136,24 @@ client.on("reconnect", () => {
     console.log("MQTT reconnecting...");
 });
 
+
+
 // ================= MESSAGE HANDLER =================
 client.on("message", (topic, message) => {
 
     const value = Number(message.toString());
     if (Number.isNaN(value)) return;
+    
 
-    switch (topic) {
+    
+	switch (topic) {
 
         case "huis/sensor/p1_meter_power/state":
             energy.net = value;
             el.net.textContent = Math.abs(value) + " W";
             break;
 
-        case "huis/sensor/marstek_venuse_3_0_grid_power/state":
+        case "huis/Venus1/power":
             energy.battery = value;
             el.battery.textContent = Math.abs(value) + " W";
             break;
@@ -163,17 +167,13 @@ client.on("message", (topic, message) => {
             el.solarKwh.textContent = (value / 1).toFixed(0) + " kWh";
             break;
 
-        case "huis/sensor/huisverbruik/state":
-            energy.house = value;
-            el.house.textContent = Math.abs(value) + " W";
-            break;
 
         case "huis/sensor/tesla_wall_connector_total_power/state":
             energy.ev = value * 1000;   //voor de snelheid van de bolletjes
             el.ev.textContent = Math.round(value*1000) + " W";
             break;
 
-        case "huis/sensor/marstek_venuse_3_0_state_of_charge/state":
+        case "huis/Venus1/soc":
             el.battCharge.textContent = value + " %";
             break;
 
@@ -183,6 +183,7 @@ client.on("message", (topic, message) => {
 
 
     }
+	updateHousePower();
 });
 
 // ================= FLOW ANIMATION =================
@@ -193,7 +194,10 @@ const flows = {
     house: { path: "hub_to_house", el: "flow_house", pos: 0 },
     ev: { path: "hub_to_ev", el: "flow_ev", pos: 0 }
 };
-
+function updateHousePower() {
+    energy.house = energy.net + energy.solar + energy.battery - energy.ev;
+    el.house.textContent = Math.abs(Math.round(energy.house)) + " W";
+}
 function animateFlow(key, power) {
     const f = flows[key];
     const circle = document.getElementById(f.el);
